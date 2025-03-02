@@ -1,0 +1,15 @@
+{
+    "name": "breno/event-manager",
+    "autoload": {
+        "psr-4": {
+            "Breno\\EventManager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "BrenoJoseCoelho",
+            "email": "93225993+BrenoJoseCoelho@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
