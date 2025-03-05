@@ -23,32 +23,30 @@ class UserController extends Controller
 
     // Armazena um novo usuário no banco de dados
     public function store(Request $request)
-{
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required|confirmed|min:6'],
-    ]);
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', 'min:6'],
+        ]);
 
-    // Obtenha os dados validados
-    $validatedData = $request->only('name', 'email', 'password');
+        // Obtenha os dados validados
+        $validatedData = $request->only('name', 'email', 'password');
 
-    // Criptografa a senha
-    $validatedData['password'] = bcrypt($validatedData['password']);
+        // Criptografa a senha
+        $validatedData['password'] = bcrypt($validatedData['password']);
 
-    // Define a role como 'participant' por padrão
-    $validatedData['role'] = 'participant';
+        // Define a role como 'participant' por padrão
+        $validatedData['role'] = 'participant';
 
-    // Cria o usuário
-    $user = User::create($validatedData);
+        // Cria o usuário
+        $user = User::create($validatedData);
 
-    // Dispara o evento de usuário registrado (se necessário)
-    event(new Registered($user));
-
+        // Dispara o evento de usuário registrado (se necessário)
+        event(new Registered($user));
 
         return redirect()->route('users.index')->with('success', 'Usuário criado com sucesso!');
     }
-
     // Exibe os detalhes de um usuário
     public function show(User $user)
     {

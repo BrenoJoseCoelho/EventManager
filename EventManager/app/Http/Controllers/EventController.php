@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -12,6 +13,12 @@ class EventController extends Controller
     {
         $events = Event::all();
         return view('events.index', compact('events'));
+    }
+
+    public function adminIndex()
+    {
+        $events = Event::all();
+        return view('admin.dashboard', compact('events'));
     }
 
     // Exibe o formulário para criar um novo evento

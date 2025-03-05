@@ -13,7 +13,7 @@ class RegistrationController extends Controller
     // Exibe as inscrições do usuário autenticado
     public function index()
     {
-        $registrations = User::user()->registrations()->with('event')->get();
+        // $registrations = Auth::user()->registrations()->with('event')->get();
         return view('registrations.index', compact('registrations'));
     }
 
