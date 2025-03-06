@@ -26,6 +26,15 @@
 
 ## Instalação
 
+### 1. Clonar o Repositório
+
+```bash
+git clone https://github.com/BrenoJoseCoelho/EventManager.git
+cd EventManager
+```
+
+### 2. Instalar Dependências
+
 ### Com Docker
 
 Se você preferir utilizar Docker para rodar o banco de dados, execute:
@@ -38,19 +47,10 @@ Isso criará os containers necessários (banco de dados) já configurados.
 
 ---
 
-### 1. Clonar o Repositório
-
-```bash
-git clone https://github.com/BrenoJoseCoelho/EventManager.git
-cd EventManager
-```
-
-### 2. Instalar Dependências
-
 ```bash
 composer install
 npm install
-npm run dev
+npm run dev --Deve ficar rodando
 ```
 
 ### 3. Configurar o Ambiente
@@ -102,6 +102,7 @@ php artisan test
 ### 6. Iniciar o Servidor
 
 ```bash
+php artisan db:seed
 php artisan serve
 ```
 
