@@ -3,15 +3,21 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if ($request->user() && $request->user()->role === 'admin') {
-            return $next($request);
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        return response('Acesso negado.', 403);
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Você não tem permissão para acessar essa área.');
+        }
+
+        return $next($request);
     }
 }
