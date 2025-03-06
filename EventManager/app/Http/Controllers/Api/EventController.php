@@ -37,7 +37,6 @@ class EventController extends Controller
         return response()->json(['data' => $event, 'message' => 'Evento criado com sucesso'], 201);
     }
 
-    // Retorna um evento específico
     public function show($id)
     {
         $event = Event::find($id);
@@ -47,7 +46,6 @@ class EventController extends Controller
         return response()->json(['data' => $event], 200);
     }
 
-    // Atualiza um evento existente
     public function update(Request $request, $id)
     {
         $event = Event::find($id);
@@ -73,7 +71,6 @@ class EventController extends Controller
         return response()->json(['data' => $event, 'message' => 'Evento atualizado com sucesso'], 200);
     }
 
-    // Exclui um evento
     public function destroy($id)
     {
         $event = Event::find($id);

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Event Manager</title>
+    <title>EventManager</title>
     <!-- Tailwind CSS via CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
@@ -14,16 +14,21 @@
     <nav class="bg-white shadow">
         <div class="container mx-auto px-6 py-4 flex items-center justify-between">
             <a href="{{ url('/') }}" class="text-xl font-bold text-gray-800">
-                Event Manager
+                EventManager
             </a>
             <div>
                 @auth
                 <span class="mr-4 text-gray-700">Olá, {{ Auth::user()->name }}</span>
                 @if(Auth::user()->role === 'admin')
                 <a href="{{ route('admin.dashboard') }}" class="mr-4 text-gray-700 hover:text-gray-900">Painel Admin</a>
-                <!-- Link que redireciona para a listagem de usuários -->
+                <!-- Link para o cadastro de usuário (para admin) -->
                 <a href="{{ route('users.index') }}" class="mr-4 text-gray-700 hover:text-gray-900">
                     Cadastro de Usuário
+                </a>
+                @elseif(Auth::user()->role === 'participant')
+                <!-- Link para a view de inscrições, disponível apenas para participantes -->
+                <a href="{{ route('registrations.index') }}" class="mr-4 text-gray-700 hover:text-gray-900">
+                    Minhas Inscrições
                 </a>
                 @endif
                 <form method="POST" action="{{ route('logout') }}" class="inline">

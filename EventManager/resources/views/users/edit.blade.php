@@ -3,14 +3,15 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
-        <h1 class="text-3xl font-bold mb-6">Novo Usuário</h1>
-        <form id="userForm" action="{{ route('users.store') }}" method="POST">
+        <h1 class="text-3xl font-bold mb-6">Editar Usuário</h1>
+        <form id="editUserForm" action="{{ route('users.update', $user->id) }}" method="POST">
             @csrf
+            @method('PATCH')
 
             <!-- Nome -->
             <div class="mb-4">
                 <label for="name" class="block text-gray-700">Nome:</label>
-                <input type="text" name="name" id="name" value="{{ old('name') }}" required
+                <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required
                     class="mt-1 block w-full border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
                 @error('name')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -20,7 +21,7 @@
             <!-- Email -->
             <div class="mb-4">
                 <label for="email" class="block text-gray-700">Email:</label>
-                <input type="email" name="email" id="email" value="{{ old('email') }}" required
+                <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required
                     class="mt-1 block w-full border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
                 <p id="emailError" class="text-red-500 text-xs mt-1 hidden">Por favor, insira um e-mail válido.</p>
                 @error('email')
@@ -30,8 +31,10 @@
 
             <!-- Senha -->
             <div class="mb-4">
-                <label for="password" class="block text-gray-700">Senha:</label>
-                <input type="password" name="password" id="password" required
+                <label for="password" class="block text-gray-700">
+                    Senha (deixe em branco para manter a atual):
+                </label>
+                <input type="password" name="password" id="password"
                     class="mt-1 block w-full border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
                 @error('password')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -41,9 +44,9 @@
             <!-- Confirmação de Senha -->
             <div class="mb-4">
                 <label for="password_confirmation" class="block text-gray-700">Confirme a Senha:</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" required
+                <input type="password" name="password_confirmation" id="password_confirmation"
                     class="mt-1 block w-full border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
-                <p id="passwordError" class="text-red-500 text-xs mt-1 hidden">As senhas não coincidem.</p>
+                <p id="passwordEditError" class="text-red-500 text-xs mt-1 hidden">As senhas não coincidem.</p>
             </div>
 
             <!-- Papel -->
@@ -52,8 +55,8 @@
                 <select name="role" id="role" required
                     class="mt-1 block w-full border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option value="">Selecione</option>
-                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrador</option>
-                    <option value="participant" {{ old('role') == 'participant' ? 'selected' : '' }}>Participante</option>
+                    <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Administrador</option>
+                    <option value="participant" {{ old('role', $user->role) == 'participant' ? 'selected' : '' }}>Participante</option>
                 </select>
                 @error('role')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -63,16 +66,16 @@
             <!-- Botão de Submissão -->
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">
-                    Cadastrar Usuário
+                    Atualizar Usuário
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Script para validar email e confirmação de senha -->
+<!-- Script para validação front-end -->
 <script>
-    document.getElementById('userForm').addEventListener('submit', function(event) {
+    document.getElementById('editUserForm').addEventListener('submit', function(event) {
         let valid = true;
 
         // Validação do email
@@ -91,8 +94,8 @@
         // Validação da confirmação de senha (apenas se o campo senha for preenchido)
         let password = document.getElementById('password').value;
         let confirmPassword = document.getElementById('password_confirmation').value;
-        let passwordError = document.getElementById('passwordError');
-        if (password !== confirmPassword) {
+        let passwordError = document.getElementById('passwordEditError');
+        if (password !== "" && password !== confirmPassword) {
             valid = false;
             passwordError.classList.remove('hidden');
             passwordError.textContent = 'As senhas não coincidem.';

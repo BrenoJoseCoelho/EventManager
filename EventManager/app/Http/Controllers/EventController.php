@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
-    // Exibe a lista de eventos
     public function index()
     {
         $events = Event::all();
@@ -21,13 +20,11 @@ class EventController extends Controller
         return view('admin.dashboard', compact('events'));
     }
 
-    // Exibe o formulário para criar um novo evento
     public function create()
     {
         return view('events.create');
     }
 
-    // Armazena o novo evento no banco de dados
     public function store(Request $request)
     {
         $request->validate([
@@ -45,19 +42,16 @@ class EventController extends Controller
         return redirect()->route('events.index')->with('success', 'Evento criado com sucesso!');
     }
 
-    // Exibe os detalhes de um evento
     public function show(Event $event)
     {
         return view('events.show', compact('event'));
     }
 
-    // Exibe o formulário para editar um evento
     public function edit(Event $event)
     {
         return view('events.edit', compact('event'));
     }
 
-    // Atualiza o evento no banco de dados
     public function update(Request $request, Event $event)
     {
         $request->validate([
@@ -75,10 +69,15 @@ class EventController extends Controller
         return redirect()->route('events.index')->with('success', 'Evento atualizado com sucesso!');
     }
 
-    // Exclui um evento do banco de dados
     public function destroy(Event $event)
     {
         $event->delete();
         return redirect()->route('events.index')->with('success', 'Evento excluído com sucesso!');
+    }
+
+    public function details(Event $event)
+    {
+        $event->load('registrations.user');
+        return view('admin.event_details', compact('event'));
     }
 }

@@ -10,27 +10,33 @@
 </div>
 
 @if(isset($users) && $users->count())
-<table class="min-w-full bg-white">
-    <thead>
+<table class="table-auto w-full bg-white border border-gray-200">
+    <thead class="bg-gray-100">
         <tr>
-            <th class="py-2 px-4 border-b">Nome</th>
-            <th class="py-2 px-4 border-b">Email</th>
-            <th class="py-2 px-4 border-b">Papel</th>
-            <th class="py-2 px-4 border-b">Ações</th>
+            <th class="px-4 py-2 text-left border-b border-gray-200">Nome</th>
+            <th class="px-4 py-2 text-left border-b border-gray-200">Email</th>
+            <th class="px-4 py-2 text-left border-b border-gray-200">Papel</th>
+            <th class="px-4 py-2 text-left border-b border-gray-200">Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach($users as $user)
         <tr>
-            <td class="py-2 px-4 border-b">{{ $user->name }}</td>
-            <td class="py-2 px-4 border-b">{{ $user->email }}</td>
-            <td class="py-2 px-4 border-b">{{ ucfirst($user->role) }}</td>
-            <td class="py-2 px-4 border-b">
-                <a href="{{ route('users.edit', $user->id) }}" class="text-blue-500 hover:text-blue-700">Editar</a>
+            <td class="px-4 py-2 border-b border-gray-200">{{ $user->name }}</td>
+            <td class="px-4 py-2 border-b border-gray-200">{{ $user->email }}</td>
+            <td class="px-4 py-2 border-b border-gray-200">{{ ucfirst($user->role) }}</td>
+            <td class="px-4 py-2 border-b border-gray-200">
+                <a href="{{ route('users.edit', $user->id) }}"
+                    class="text-blue-500 hover:text-blue-700">
+                    Editar
+                </a>
                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline-block">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="text-red-500 hover:text-red-700 ml-2">Excluir</button>
+                    <button type="submit"
+                        class="text-red-500 hover:text-red-700 ml-2">
+                        Excluir
+                    </button>
                 </form>
             </td>
         </tr>

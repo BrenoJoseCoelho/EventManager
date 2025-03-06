@@ -9,7 +9,7 @@ services:
             MYSQL_ROOT_PASSWORD: rootpassword
             MYSQL_DATABASE: event_manager
             MYSQL_USER: admin
-            MYSQL_PASSWORD: jk9d88yn
+            MYSQL_PASSWORD: senhabanco123
         ports:
             - "3306:3306"
         volumes:
